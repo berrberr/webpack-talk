@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Webpack Talk</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Webpack</h1>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Definition
+
+						webpack is a module bundler.
+
+						webpack takes modules with dependencies and generates static assets representing those modules.
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Modules
+
+						### What's a (JS) module?
+
+						marijnh (Eloquent Javascript) says: 
+						> Modules divide programs into clusters of code that, by some criterion, belong together.
+
+
+					</script>
+				</section>
+
+				<section data-markdown>
+					## Why?
+
+					* Organization / Structure
+					* Reusability
+					* Namespacing / Keeps global namespace clean
+					* Testability with well defined interfaces (input/output)
+
+				</section>
+
+				<section>
+					<h1>Example</h1>
+
+					<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
+// logger.js
+define([], function() {
+ 	return {
+ 		error: function(msg) {
+ 			console.log("ERROR -- ", msg);
+ 		},
+ 		info: function(msg) {
+ 			console.log("INFO -- ", msg);
+ 		}
+ 	};
+});
+					</code></pre>
+					<p>
+						We are using AMD format here (because that's the flavour we use in Sensor Tower).
+					</p>
+					<div>
+						The AMD define function takes 3 arguments:
+						<ul>
+							<li>(optional) id</li>
+							<li>(optional) Array of dependencies</li>
+							<li>Factory function or object</li>
+						</ul>
+					</div>
+				</section>
+
+				<section data-markdown>
+					## Dependencies
+
+					A dependency, in the context of a JS application, is something (i.e. some functionality contained in a module) that the application requires to function.
+
+					Using webpack we can _inject_ dependencies into code when we need to use functionality from a dependency.
+				</section>
+
+				<section>
+					<h1>Example</h1>
+
+					<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
+// app.js
+define(["./logger.js"], function(Logger) {
+	var nameCheck = function(name) {
+		if (name == "Alex") { Logger.info("thats me"); }
+		else { Logger.error("wrong name"); }
+	}
+});
+					</code></pre>
+					<p>
+						Here we inject the functionality defined in <code>logger.js</code> into our main app.
+					</p>
+					<p>
+						The exported code from <code>logger.js</code> assigned to the <code>Logger</code> argument variable in our factory function. 
+					</p>
+				</section>
+
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
