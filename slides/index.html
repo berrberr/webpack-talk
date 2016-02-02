@@ -50,7 +50,7 @@
 
 						### What's a (JS) module?
 
-						marijnh (Eloquent Javascript) says: 
+						marijnh (Eloquent Javascript) says:
 						> Modules divide programs into clusters of code that, by some criterion, belong together.
 
 
@@ -120,11 +120,37 @@ define(["./logger.js"], function(Logger) {
 						Here we inject the functionality defined in <code>logger.js</code> into our main app.
 					</p>
 					<p>
-						The exported code from <code>logger.js</code> assigned to the <code>Logger</code> argument variable in our factory function. 
+						The exported code from <code>logger.js</code> assigned to the <code>Logger</code> argument variable in our factory function.
 					</p>
 				</section>
 
+				<section data-markdown>
+					<script type="text/template">
+						## Loaders
 
+						webpack also let's us use `loaders`
+
+						Loaders let you apply pre processing steps to files before they are required into other files.
+
+						You can define loaders inline when you require other modules (`define(["coffee-loader!./logger.coffee.js"])`), however we define our loaders in the config file (more readable/easier).
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Example
+
+						```
+						module: {
+						  loaders: [
+						    { test: /\.coffee$/, loader: "coffee-loader" }
+						  ]
+						}
+						```
+
+						This will pass all `coffee` files into `coffee-loader`, which will compile them into javascript before being passed into the modules requiring them.
+					</script>
+				</section>
 			</div>
 
 		</div>
